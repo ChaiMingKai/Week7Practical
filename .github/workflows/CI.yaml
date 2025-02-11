@@ -1,0 +1,44 @@
+name: CI Process
+run-name: ${{ github.actor }} is learning GitHub Actions
+on: [push]
+jobs:
+  behave-testing:
+    # Setup a simple OS of choice, i.e., Linux
+    # Create VM with Ubuntu OS
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write  # Grant permissions to create issues
+      
+    steps:
+      # Step 1: Checkout code from repository
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+      - name: Create an issue
+        uses: dacbd/create-issue-action@main
+        with:
+          token: ${{ github.token }}
+          title: Simple test issue
+          body: my new issue
+
+      # Step 2: List files in the repository
+      - name: List repo
+        run: |
+          ls
+
+      # Step 3: Set up Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v5.3.0
+        with:
+          python-version: '3.13'
+
+      # Step 4: Install Behave using pip
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install behave==1.2.6  # Install Behave with a specific version (adjust version if needed)
+
+      # Step 5: Run Behave tests
+      - name: Run Behave tests
+        uses: cryptic-wizard/run-behave-tests@v0.4.0
+        with:
+          upload-artifact: true  # Default is true, adjust if needed
