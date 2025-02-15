@@ -4,8 +4,7 @@ from behave import *
 
 @given(u'the calculator is initialized')
 def step_impl(context):
-    context.calculator = None  # Calculator functions are imported directly
-
+    context.calculator = None 
 @when(u'I add {a:d} and {b:d}')
 def step_impl(context, a, b):
     context.result = add(float(a), float(b))
